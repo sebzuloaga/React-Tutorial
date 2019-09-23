@@ -228,4 +228,10 @@ If your development environment started by the command 'npm start' is still runn
 
 ## Organising all of your components and image
 
+Now that we have rendered our first component, let us plan all of the components that we neeed. For this tutorial we will be building a small web app that tells us the weather. Here is an image for the final result that we will be achieving by the end of the tutorial:
 
+![alt text](https://github.com/sebzuloaga/React-Tutorial/blob/master/images/FinalResult.png "Final Weather Web App result")
+
+If we split this up into smaller and smaller components, this is what it would look like. 
+
+![alt text](https://github.com/sebzuloaga/React-Tutorial/blob/master/images/ComponentBreakdown.svg "Final Weather Web App result")
