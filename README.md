@@ -36,3 +36,5 @@ Getting started with React takes a little bit longer than your traditional websi
 ![alt text](https://github.com/sebzuloaga/React-Tutorial/blob/master/images/folder_structure.png "Folder Structure")
 
 ### Working with the lab computers
+
+1. 
