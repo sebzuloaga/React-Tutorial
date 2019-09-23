@@ -9,6 +9,8 @@ There are many advantages to React JS, but here are a couple of them:
 3. React JS allows for better performance based on rendering chamnges only when necessary
 4. It can lead you on to React Native development
 
+
+
 ## Structure of this Tutorial
 
 In this tutorial you will be doing the following things:
@@ -20,9 +22,13 @@ In this tutorial you will be doing the following things:
 5. **Creating the rest of the Components**
 6. **Replacing static information**
 
+
+
 ## Setting up React
 
 Getting started with React takes a little bit longer than your traditional website. For the purpose of this tuturial, we are going to use create-react-app. Create-react-app is a method supported by React to get started with a single page application template. Usually getting started with create-react-app is quite easy, **BUT** *if you are in one of the lab computers you will require to do a couple of additional steps*.
+
+
 
 ### Working with your own devices
 
@@ -42,6 +48,8 @@ Getting started with React takes a little bit longer than your traditional websi
 
 7. To make sure that everything is working fine, go to the terminal in Visual Studio Code and type and enter the following command: npm start. This command will start a development server so that you can see the resulting application as you are coding. Whenever you save any changes in your code, your localhost:3000 will update to show your progress.
 
+
+
 ### Working with the lab computers
 
 1.	Run “Windows” key + R
@@ -60,6 +68,8 @@ Getting started with React takes a little bit longer than your traditional websi
 
 8. To make sure that everything is working fine, go to the terminal in Visual Studio Code and type and enter the following command: npm start. This command will start a development server so that you can see the resulting application as you are coding. Whenever you save any changes in your code, your localhost:3000 will update to show your progress.
 
+
+
 ## The React Folder structure
 
 * public: this folder contains all the files that are ready to be deployed. In summary, the files in the public folder will be the files that create the final build of the application.
@@ -69,7 +79,10 @@ In your src folder, delete "App.test.js" and "logo.svg". Then go to "App.js", "A
 
 For each component that we create, we will make a new subfolder on the "src" folder. 
 
+
+
 ## Creating your app and your first component.
+
 
 
 ### Your App component
@@ -122,6 +135,8 @@ class extends React.Component {
 }
 ```
 
+
+
 ### Rules of JSX
 
 Did you notice something interesting about the code we wrote inside of the "return ()" statement? While the code looks mostly like HTML, this is JSX which is an XML-like notation for ECMAscript (which is the basis for JavaScript). JSX has some rules to it:
@@ -172,6 +187,8 @@ class extends React.Component {
 
 There are many more intricate things about JSX, but the 4 syntax considerations above are the ones we will be using the most. Always remember these rules as they are a basic concept of writing React JS.
 
+
+
 ### Displaying your App
 
 We have created the first component of the application, but we have not yet rendered it. Rendering means that we are telling React JS that somethings needs to be displyed. We will be working on this on the index.js file in your "src" folder
@@ -205,7 +222,9 @@ The ReactDOM.render() is the one that gets React to display something. It takes 
 serviceWorker.unregister();
 ```
 
-If your development environment started by the command 'npm start' is still running, then have a look and check if your application is rendering well. If there are any errors. you will need to check your code before moving forward. 
+If your development environment started by the command 'npm start' is still running, then have a look and check if your application is rendering well. If there are any errors. you will need to check your code before moving forward.
+
+
 
 ## Organising all of your components and image
 
