@@ -60,7 +60,7 @@ Getting started with React takes a little bit longer than your traditional websi
 
 8. To make sure that everything is working fine, go to the terminal in Visual Studio Code and type and enter the following command: npm start. This command will start a development server so that you can see the resulting application as you are coding. Whenever you save any changes in your code, your localhost:3000 will update to show your progress.
 
-### The React Folder structure
+## The React Folder structure
 
 * public: this folder contains all the files that are ready to be deployed. In summary, the files in the public folder will be the files that create the final build of the application.
 * src: this folder contains all the files during the development. You will be mostly coding and creating files on the src folder.
@@ -69,10 +69,10 @@ In your src folder, delete "App.test.js" and "logo.svg". Then go to "App.js", "A
 
 For each component that we create, we will make a new subfolder on the "src" folder. 
 
-### Creating your app and your first component.
+## Creating your app and your first component.
 
 
-#### Your App component
+### Your App component
 
 Usually the App component is the first one that you will create as the application that will hold all other components. Follow these steps to create your first component:
 
@@ -122,7 +122,7 @@ class extends React.Component {
 }
 ```
 
-#### Rules of JSX
+### Rules of JSX
 
 Did you notice something interesting about the code we wrote inside of the "return ()" statement? While the code looks mostly like HTML, this is JSX which is an XML-like notation for ECMAscript (which is the basis for JavaScript). JSX has some rules to it:
 
@@ -172,7 +172,7 @@ class extends React.Component {
 
 There are many more intricate things about JSX, but the 4 syntax considerations above are the ones we will be using the most. Always remember these rules as they are a basic concept of writing React JS.
 
-#### Displaying your App
+### Displaying your App
 
 We have created the first component of the application, but we have not yet rendered it. Rendering means that we are telling React JS that somethings needs to be displyed. We will be working on this on the index.js file in your "src" folder
 
@@ -207,6 +207,6 @@ serviceWorker.unregister();
 
 If your development environment started by the command 'npm start' is still running, then have a look and check if your application is rendering well. If there are any errors. you will need to check your code before moving forward. 
 
-### Organising all of your components and image
+## Organising all of your components and image
 
 
