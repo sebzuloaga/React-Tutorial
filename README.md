@@ -13,9 +13,9 @@ There are many advantages to React JS, but here are a couple of them:
 
 In this tutorial you will be doing the following things:
 
-1. **Setting up React** 
-2. **The React folder structure**
-3. **Creating the App and your first component**
-4. **Organising your CSS and Images**
-5. **Creating the rest of the Components**
-6. **Replacing static information**
+**1. Setting up React** 
+**2. The React folder structure**
+**3. Creating the App and your first component**
+**4. Organising your CSS and Images**
+**5. Creating the rest of the Components**
+**6. Replacing static information**
