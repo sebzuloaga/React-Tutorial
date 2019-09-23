@@ -234,4 +234,4 @@ Now that we have rendered our first component, let us plan all of the components
 
 If we split this up into smaller and smaller components, this is what it would look like. 
 
-![alt text](https://github.com/sebzuloaga/React-Tutorial/blob/master/images/ComponentBreakdown.svg "Final Weather Web App result")
+![alt text](https://github.com/sebzuloaga/React-Tutorial/blob/master/images/ComponentBreakdown.png "Final Weather Web App result")
