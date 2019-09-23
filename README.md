@@ -202,8 +202,6 @@ The ReactDOM.render() is the one that gets React to display something. It takes 
 3. Finally just for performance concerns, add the following line at the end of index.js:
 
 ```javascript
-
-Once this is done
 serviceWorker.unregister();
 ```
 
