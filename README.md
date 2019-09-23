@@ -29,10 +29,10 @@ Getting started with React takes a little bit longer than your traditional websi
 1. Create a new folder called "React" somewhere in your device where you want to work. 
 2. Drag and drop this folder onto Visual Studio Code. 
 3. On Visual Studio, open up a terminal and make sure that you are currently on the "React" directory you created before. 
-4. On the terminal type the following "npm init react-app *your-application-name-goes-here*"
-5. **NOTE**: you will need to have Node and npm installed in your device. If you need to get Node you can go to this link https://nodejs.org/en/download/ and if you need to install npm you can run this command on your Visual Studio terminal after downloading Node: "npm install npm@latest -g"
-6. If step 4 ran without an error, you will see that the terminal will tell you that it is creating the files. Once it is done you should see in Visual Studio a folder structure like the following image: 
+4. **NOTE**: you will need to have Node and npm installed in your device. If you need to get Node you can go to this link https://nodejs.org/en/download/ and if you need to install npm you can run this command on your Visual Studio terminal after downloading Node: "npm install npm@latest -g"
+5. On the terminal type the following: *npm init react-app* **your-application-name-goes-here**. If this does not work, then try: *create-react-app **your-application-name-goes-here**.  
+6. If step 5 ran without an error, you will see that the terminal will tell you that it is creating the files. Once it is done you should see in Visual Studio a folder structure like the following image: 
 
-
+![alt text](https://github.com/sebzuloaga/React-Tutorial/blob/master/images/folder_structure.png "Folder Structure")
 
 ### Working with the lab computers
