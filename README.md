@@ -497,15 +497,13 @@ Using the image that shows the component structure, challenge yourself to comple
 
 **Note**: for now, do not attempt to create 5 different weather forecasts. Create just the component that displays "Sunny with Clouds". We willw work later on how to use JavaScript objects to achieve 5 different forecasts. Essentially, at this stage you are creating the following image where the code is static and only shows one type of forecast:
 
-
+![alt text](https://github.com/sebzuloaga/React-Tutorial/blob/master/images/Stage1Solution.png "Solution 1 Image")
 
 ## Adding images on React
 
 Inside of WeatherIcon.js you will be adding an img tag to display the specific image for each forecast. Images work a bit different in React given that they have to be imported in a similar way as other modules. 
 
 In order to add an image to your file, you have to do the following: 
-
-![alt text](https://github.com/sebzuloaga/React-Tutorial/blob/master/images/Stage1Solution.png "Solution 1 Image")
 
 ```javascript
 /* use an import statement with the name you want to give your image, and then specify the path to the image */
@@ -523,3 +521,10 @@ class WeatherIcon extends Component {
     )
   }
 }
+
+
+## Replacing static information
+
+At this stage we are going to move on to the final part of this tutorial were we add in dynamic information to our web application. If you notice our solution from before, it really is not optimal if we cannot pass on the forecast of each day dynamically so that the web app can automattically show us the relevant information. It would not be very efficient if we had to hard code each value. In order get our app to make use of data structures to pass on relevant information to the components, we will be using "props" and "state". 
+
+
