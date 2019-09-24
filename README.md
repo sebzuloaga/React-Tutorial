@@ -232,11 +232,25 @@ The ReactDOM.render() is the one that gets React to display something. It takes 
 serviceWorker.unregister();
 ```
 
+4. Add the following CSS onto your index.css:
+
+```css
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body{
+    background-color: seashell;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+```
+
 If your development environment started by the command 'npm start' is still running, then have a look and check if your application is rendering well. If there are any errors. you will need to check your code before moving forward.
 
 
 
-## Organising all of your components and image
+## Divide components and conquer
 
 Now that we have rendered our first component, let us plan all of the components that we neeed. For this tutorial we will be building a small web app that tells us the weather. Here is an image for the final result that we will be achieving by the end of the tutorial:
 
@@ -245,3 +259,168 @@ Now that we have rendered our first component, let us plan all of the components
 If we split this up into smaller and smaller components, this is what it would look like. 
 
 ![alt text](https://github.com/sebzuloaga/React-Tutorial/blob/master/images/ComponentBreakdown.png "Final Weather Web App result")
+
+The image above shows the structure that we will be following to create this application:
+
+* The App.js file will contain a heading that says the place of the forecast and the 5-day forecast (a <ForecastList /> class coming from ForecastList.js)
+* The ForecastList.js file will contain 5 individual forecasts, one for each of the 5 days (a <Forecast /> class coming from Forecast.js)
+* The Forecast.js file will contain an image for the forecast (a <WeatherIcon /> class coming from WeatherIcon.js) and the weather information (a <WeatherInfo /> class coming from WeatherInfo.js).
+
+For any application you are creating with React, it is crucial for you to understand this structure. 
+
+### Setting up your folder structure
+
+For each of the components above, you will do the following:
+
+* Inside of your "src" folder", create a subfolder with the name of your component. For example, we are going to create a ForecastList component so we create a folder called "ForecastList". 
+* After you have created a folder for each component, inside of each folder create a JavaScript file and a CSS file with the name of the component (for example ForecastList.js and ForecastList.css)
+
+## Creating all of the components
+
+In order to create all of the components we have outlined, we will follow the same process we did for the App.js component before:
+
+* Import React
+* Import the css stylesheet
+* Create a javaScript class that extends React Components
+* Add a render() method inside of your class
+* Add a return() statement inside your render method
+* Add HTML-like code via JSX inside of the return statement to render the right elements as part of a component
+* Export the component to make sure it can be accessed by other components in the structure
+* Add the CSS onto the relevant CSS file for the specific component
+* *optional: add any JSX with the imported components*
+* *optional: update any import statements if you are adding any other components within the current component*
+
+As an example of this process, lets have a look at how we would create App.js and Forecastlist.js
+
+### App.js
+
+In the App.js file:
+
+* **Import React**. Notice that now it is a bit different because we are importing "React, {Component}" which means that rather than importing the whole React library we are only importing the Component. This helps with performance:
+
+```javascript
+import React, {Component} from 'react';
+
+```
+
+* **Import the stylesheet for this component App.css**:
+
+```javascript
+import React, {Component} from 'react';
+import './App.css';
+```
+
+* **Create the class App by extending a React component**. Notice that because we imported "React, {Component}" we no longer have to say "class App extend React.Component" and instead we can just say "class App extends Component":
+
+```javascript
+import React, {Component} from 'react';
+import './App.css';
+
+class App extends Component {
+
+}
+```
+
+* **Add a render method and a return statement inside of the class you just created** (*note about return statements: if a return statement is only one line, then it does not need to be between "()" but parenthesis are needed if the return statement is longer than one line*):
+
+```javascript
+import React, {Component} from 'react';
+import './App.css';
+
+class App extends Component {
+  render() {
+    return (
+    
+    )
+  }
+}
+```
+
+* **Add the necessary JSX content**. If you remember the image earlier where we showed the component structure. App.js will render a heading with the location of the forecast, and it will also have a Forecast List element. At the moment we will just put a <p> placeholder for the forecastList (note that at this stage for the purpose of the tutorial we have removed the "text" variable we created earlier in App.js and also the <p> that displayed the "text" variable): 
+
+```javascript
+import React, {Component} from 'react';
+import './App.css';
+
+class App extends Component {
+  render() {
+    return (
+      <div className="weatherApp">
+        <h1>Brisbane</h1>
+        <p>this is where the ForecastList will come</p>
+      </div>
+    )
+  }
+}
+```
+
+* **Export the class you just created:**
+
+```javascript
+import React, {Component} from 'react';
+import './App.css';
+
+class App extends Component {
+  render() {
+    return (
+      <div className="weatherApp">
+        <h1>Brisbane</h1>
+        <p>this is where the ForecastList will come</p>
+      </div>
+    )
+  }
+}
+
+export default App;
+```
+
+* **Add the CSS necessary to App.css file** (We are writing CSS onto a CSS file, so there is no difference here with tradition css):
+
+```css
+.weatherApp {
+  background-color: white;
+  height: 40vh;
+}
+```
+
+* **Replace the placeholder paragraph with the <ForecastList /> element:** 
+
+```javascript
+import React, {Component} from 'react';
+import './App.css';
+
+class App extends Component {
+  render() {
+    return (
+      <div className="weatherApp">
+        <h1>Brisbane</h1>
+        <ForecastList />
+      </div>
+    )
+  }
+}
+
+export default App;
+```
+
+* **Add the import of the <ForecastList /> element.** We can't use the module if it has not been imported:
+
+```javascript
+import React, {Component} from 'react';
+import ForecastList from '../ForecastList/ForecastList';
+import './App.css';
+
+class App extends Component {
+  render() {
+    return (
+      <div className="weatherApp">
+        <h1>Brisbane</h1>
+        <ForecastList />
+      </div>
+    )
+  }
+}
+
+export default App;
+```
+
