@@ -521,10 +521,14 @@ class WeatherIcon extends Component {
     )
   }
 }
-
+```
 
 ## Replacing static information
 
-At this stage we are going to move on to the final part of this tutorial were we add in dynamic information to our web application. If you notice our solution from before, it really is not optimal if we cannot pass on the forecast of each day dynamically so that the web app can automattically show us the relevant information. It would not be very efficient if we had to hard code each value. In order get our app to make use of data structures to pass on relevant information to the components, we will be using "props" and "state". 
+At this stage we are going to move on to the final part of this tutorial were we add in dynamic information to our web application. If you notice our solution from before, it really is not optimal if we cannot pass on the forecast of each day dynamically so that the web app can automattically show us the relevant information. It would not be very efficient if we had to hard code each value. Before you move forward with this exercise, make sure you have finalised the exercises before to have the correct solution. 
+
+In order get our app to make use of data structures to pass on relevant information to the components, we will be using "props" and "state". 
+
+### Making App.js a stateful component
 
 
