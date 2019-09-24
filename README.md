@@ -336,7 +336,7 @@ class App extends Component {
 }
 ```
 
-* **Add the necessary JSX content**. If you remember the image earlier where we showed the component structure. App.js will render a heading with the location of the forecast, and it will also have a Forecast List element. At the moment we will just put a <p> placeholder for the forecastList (note that at this stage for the purpose of the tutorial we have removed the "text" variable we created earlier in App.js and also the <p> that displayed the "text" variable): 
+* **Add the necessary JSX content**. If you remember the image earlier where we showed the component structure. App.js will render a heading with the location of the forecast, and it will also have a Forecast List element. At the moment we will just put a "p" tag placeholder for the ForecastList (note that at this stage for the purpose of the tutorial we have removed the "text" variable we created earlier in App.js and also the "p" tag that displayed the "text" variable): 
 
 ```javascript
 import React, {Component} from 'react';
@@ -383,7 +383,7 @@ export default App;
 }
 ```
 
-* **Replace the placeholder paragraph with the <ForecastList /> element:** 
+* **Replace the placeholder paragraph with the "ForecastList" element:** 
 
 ```javascript
 import React, {Component} from 'react';
@@ -403,7 +403,7 @@ class App extends Component {
 export default App;
 ```
 
-* **Add the import of the <ForecastList /> element.** We can't use the module if it has not been imported:
+* **Add the import of the "ForecastList" element.** We can't use the module if it has not been imported:
 
 ```javascript
 import React, {Component} from 'react';
@@ -424,3 +424,96 @@ class App extends Component {
 export default App;
 ```
 
+**NOTE: at this stage, in your localhost:3000 you will not be able to see the code display and instead yu will see an error because we have still not created the ForecastList element and so React throws an error to let us know we are attempting to import a class that has not been defined.
+
+### ForecastList.js
+
+If we repeat the process as we did with App.js, we end with the following code that will go in ForecastList.js:
+
+```javascript
+/*import React and the stylesheet for ForecastList */
+
+import React, {Component} from 'react';
+import './ForecastList.css';
+
+/*create the class called ForecastList so it can be exported and used in App.js*/
+class ForecastList extends Component {
+
+/*Add the render method and the return statement */
+  render() {
+    return (
+/*Add the HTML-like content through JSX sysntax. Here we will add a <section>
+  element as the root element, and also a paragraph placeholder for where each
+  day forecast will be placed */ 
+      <section>
+          <p>This will contain the forecasts of each day</p>
+      </section>
+    )
+  }
+}
+
+/*Add the export of the ForecastList class */
+export default ForecastList;
+```
+
+At this stage, the ForecastList component is not complete. However just so we can see the result without any errors, we will skip the steps to add the individual day forecasts for now. 
+
+### ForecastList.css
+
+Add the following CSS inside of the ForecastList.css file:
+
+```css
+section {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    background-color: seashell;
+    margin: 0 5vw;
+}
+
+@media only screen and (min-width: 600px) {
+    section {
+      flex-direction: row;
+    }
+  }
+
+```
+
+## Finish all of the other components
+
+At this stage, you know all of the concepts necessary to create the following files:
+
+* Forecast.js
+* Forecast.css
+* WeatherIcon.js
+* WeatherIcon.css
+* WeatherInfo.js
+* WeatherInfo.css
+
+Using the image that shows the component structure, challenge yourself to complete all of the files mentioned above. If you get stuck, the code for each component is in this Github repository in a folder called "resources/part1".
+
+**Note: for now, do not attempt to create 5 different weather forecasts. Create just the component that displays "Sunny with Clouds". We willw work later on how to use JavaScript objects to achieve 5 different forecasts. 
+
+## Adding images on React
+
+Inside of WeatherIcon.js you will be adding an img tag to display the specific image for each forecast. Images work a bit different in React given that they have to be imported in a similar way as other modules. 
+
+In order to add an image to your file, you have to do the following: 
+
+```javascript
+/* use an import statement with the name you want to give your image, and then specify the path to the image */
+
+import Cloudy from './images/cloudy.svg'
+
+/*create a class and within the render method add the image with your imported module as the src */
+
+class WeatherIcon extends Component {
+  render() {
+    return(
+      <figure>
+        <img src={Cloudy} alt="cloudy" />
+      </figure>
+    )
+  }
+}
