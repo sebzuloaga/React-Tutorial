@@ -1,0 +1,41 @@
+main{
+    width: 60%;
+}
+
+main h2, main h4{
+    margin: 8px 0;
+}
+
+main h2{
+    width: 100%;
+}
+
+main h4{
+    width: 100%;
+    font-weight: normal;
+}
+
+aside ul {
+    display: flex;
+    justify-content: space-evenly;
+    list-style: none;
+}
+
+aside ul li{
+    font-size: 1.5em;
+}
+
+.maxTemp{
+    color: crimson;
+}
+
+.minTemp{
+    color: skyblue;
+}
+
+@media only screen and (min-width: 700px) {
+
+    main {
+        width: 100%;
+    }
+  }
