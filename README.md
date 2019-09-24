@@ -424,7 +424,9 @@ class App extends Component {
 export default App;
 ```
 
-**NOTE: at this stage, in your localhost:3000 you will not be able to see the code display and instead yu will see an error because we have still not created the ForecastList element and so React throws an error to let us know we are attempting to import a class that has not been defined.
+**NOTE: at this stage, in your localhost:3000 you will not be able to see the code display and instead yu will see an error because we have still not created the ForecastList element and so React throws an error to let us know we are attempting to import a class that has not been defined. Here is the error you may see:
+
+![alt text](https://github.com/sebzuloaga/React-Tutorial/blob/master/images/ImportError.png "Import Error output")
 
 ### ForecastList.js
 
@@ -493,13 +495,17 @@ At this stage, you know all of the concepts necessary to create the following fi
 
 Using the image that shows the component structure, challenge yourself to complete all of the files mentioned above. If you get stuck, the code for each component is in this Github repository in a folder called "resources/part1".
 
-**Note**: for now, do not attempt to create 5 different weather forecasts. Create just the component that displays "Sunny with Clouds". We willw work later on how to use JavaScript objects to achieve 5 different forecasts. 
+**Note**: for now, do not attempt to create 5 different weather forecasts. Create just the component that displays "Sunny with Clouds". We willw work later on how to use JavaScript objects to achieve 5 different forecasts. Essentially, at this stage you are creating the following image where the code is static and only shows one type of forecast:
+
+
 
 ## Adding images on React
 
 Inside of WeatherIcon.js you will be adding an img tag to display the specific image for each forecast. Images work a bit different in React given that they have to be imported in a similar way as other modules. 
 
 In order to add an image to your file, you have to do the following: 
+
+![alt text](https://github.com/sebzuloaga/React-Tutorial/blob/master/images/Stage1Solution.png "Solution 1 Image")
 
 ```javascript
 /* use an import statement with the name you want to give your image, and then specify the path to the image */
