@@ -13,6 +13,8 @@ There are many advantages to React JS, but here are a couple of them:
 
 ## Structure of this Tutorial
 
+Through this tutorial, you will be creating a small weather application that pulls information from a weather API and then displays the coming forecast. During week 10 you will be creating static components, and then in week 11 we will load dynamic information via an API. 
+
 In this tutorial you will be doing the following things:
 
 1. **Setting up React** 
@@ -122,9 +124,10 @@ In here. the render function allows us to render the code for the client,a nd th
 5. Inside of the return function, we will be writing JSX which is HTML-like statements that allow us to write HTML and javascript together which React can make use of. Update your return statement to display the following (and also add the new variable called "text" before the render statement): 
 
 ```javascript
-class extends React.Component {
+const text = "The following application has the forecast for the next five days";
 
-  const text = "The following application has the forecast for the next five days";
+class App extends React.Component {
+
   render() {
   return (
     <div className="weatherApp">
@@ -135,6 +138,11 @@ class extends React.Component {
 }
 ```
 
+6. After the creation of our class App, we need to make suer that we export it. We need to export it because we will be rendering our App component somewhere else and thus it will be imported into another module. Whenever a module / component will be imported onto another, the module being imported must have an export statement inside of it. Add the following code after the creation og the App class: 
+
+```javascript
+export default App;
+```
 
 
 ### Rules of JSX
@@ -172,9 +180,11 @@ Did you notice something interesting about the code we wrote inside of the "retu
 4. Javascript can be injected into JSX. In order to inject JavaScript onto out components through JSX, we used the {curly braces}. Anything inside { } will be read as JavaScript. For example, in the JSX below we have referenced our variable "text" inside of curly braces. Therefore, the string saved to the variable "text" will be placed inside of the <p> tag. 
   
   ```javascript
-class extends React.Component {
 
-  const text = "The following application has the forecast for the next five days";
+const text = "The following application has the forecast for the next five days";
+  
+class App extends React.Component {
+
   render() {
   return (
     <div className="weatherApp">
