@@ -523,6 +523,13 @@ class WeatherIcon extends Component {
 }
 ```
 
+The links to the icons that have been used in this tutorial are the following:
+
+https://www.flaticon.com/free-icon/cloudy_1146869
+https://www.flaticon.com/free-icon/rain_1146858
+https://www.flaticon.com/free-icon/sunny_979585#term=sunny&page=1&position=1
+https://www.flaticon.com/free-icon/storm_1146860#term=thunderstorm&page=1&position=2
+
 
 # Part 2: Passing on dynamic information to the application
 
@@ -535,3 +542,12 @@ In order get our app to make use of data structures to pass on relevant informat
 ## Making App.js a stateful component
 
 
+# References to Icon images
+
+Cloudy: Icon made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a>
+
+Rainy: Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a>
+
+Sunny: Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a>
+
+Thunderstorm: Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a>
