@@ -378,7 +378,7 @@ export default App;
 
 ```css
 .weatherApp {
-  background-color: white;
+  background-color: seashell;
   height: 40vh;
 }
 ```
@@ -493,7 +493,7 @@ At this stage, you know all of the concepts necessary to create the following fi
 
 Using the image that shows the component structure, challenge yourself to complete all of the files mentioned above. If you get stuck, the code for each component is in this Github repository in a folder called "resources/part1".
 
-**Note: for now, do not attempt to create 5 different weather forecasts. Create just the component that displays "Sunny with Clouds". We willw work later on how to use JavaScript objects to achieve 5 different forecasts. 
+**Note**: for now, do not attempt to create 5 different weather forecasts. Create just the component that displays "Sunny with Clouds". We willw work later on how to use JavaScript objects to achieve 5 different forecasts. 
 
 ## Adding images on React
 
