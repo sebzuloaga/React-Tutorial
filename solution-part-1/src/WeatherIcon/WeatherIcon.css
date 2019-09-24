@@ -1,0 +1,22 @@
+figure {
+    width: 40%;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+figure img{
+    max-width: 80%;
+}
+
+@media only screen and (min-width: 600px) {
+
+    figure{
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+
+    figure img {
+        max-width: 60%;
+    }
+  }
