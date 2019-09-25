@@ -523,6 +523,8 @@ class WeatherIcon extends Component {
 }
 ```
 
+For this code to work, you will have to place the svg in an "images" folder inside of the "WeatherIcon" folder.  
+
 The links to the icons that have been used in this tutorial are the following:
 
 https://www.flaticon.com/free-icon/cloudy_1146869
@@ -540,6 +542,204 @@ At this stage we are going to move on to the final part of this tutorial were we
 In order get our app to make use of data structures to pass on relevant information to the components, we will be using "props" and "state". 
 
 ## Making App.js a stateful component
+
+React Components support states, meaning that we can attach information to the state of a component so that we can use it within the components and perhaps pass it down to its subcomponents. In order to make a stateful component (a component with state), we need to understand some principles of Object Oriented Programming and uses of classes. 
+
+The first thing we are going to do is to create a constructor() for our App component. In App.js, add the following code just after you have created the App class and before you have added the render() method:
+
+```javascript 
+constructor(props){
+  super(props);
+}
+```
+
+The constructor allows us to initialise the state of our class (as well as dealing with binding methods which is something we will touch on later). We need to make sure that we are passing on super(props) to our constructor so that we can also use the props because if super(props) is not used our props will be set to undefined (we will explain what props are soon). Essentially the super(props) allows us to have acces to all of the methods and information from the parent class. 
+
+Now that we have created our constructor, lets also create our state for the App component. Update the constructor to include the initialisation of the state:
+
+```javascript 
+constructor(props){
+  super(props);
+  this.state = {
+  
+  }
+}
+```
+
+We use the keyword **"this"** to reference this particular component, and we use the method **"state"** to initialise the state. Inside of the **"this.state"** method we need to add all of the forecast information as a JavaScript object so that we can use it within our application. Update the **"this.state"** to add the following object:
+
+```javascript 
+constructor(props){
+  super(props);
+  this.state = {
+    location: "Brisbane",
+      forecastList: [
+        {
+          day:"Monday",
+          forecast: "Sunny with Clouds",
+          max: 30,
+          min: 20
+        },
+        {
+          day:"Tuesday",
+          forecast: "Rain",
+          max: 30,
+          min: 20
+        },
+        {
+          day:"Wednesday",
+          forecast: "Sunny with Clouds",
+          max: 25,
+          min: 15
+        },
+        {
+          day:"Thursday",
+          forecast: "Thunderstorms",
+          max: 28,
+          min: 19
+        },
+        {
+          day:"Friday",
+          forecast: "Sunny",
+          max: 33,
+          min: 25
+        }
+      ]
+  }
+}
+```
+
+This object includes mainly two pieces of information. First, it includes a **location** of the forecast and second it includes an array of 5 days of weather forecast called **forecastList**. Each day on the array is represented as another object which includes the name of the **day**, the **forecast**, a **max** temperature, and a **min** temperature. 
+
+By adding this object onto the state of the App component, you have made App into a stateful component that has information that we can use. Now, we can move onto using this information. First we will access the state of App.js. 
+
+You may remember that we added a heading that says "Brisbane" within the render method of the App component. However, in the future we will allow for users to choose the location of the forecast and thus we can't have the heading being static. The heading should display the current location the user has chosen. Where can we find this information? Well, at the moment we have added the location of the forecast onto the object we just created in our state. We can access this information using "this.state". 
+
+In App.js, go to the "h1" tage we created before and replace "Brisbane" with "{this.state.location}" as shown below:
+
+```javascript
+render() {
+    return (
+      <div className="weatherApp">
+        <h1>{this.state.location}</h1>
+        <ForecastList />
+      </div>
+    )
+  }
+```
+
+Remember that if we inject plain JavaScript into our JSX we have to put it between "{ }". Using "this.state" allows you to acces the information from the state, in this case it allows us to access the object we created as part of the state. In this object, there is a key named "location" which holds the information for the location of the forecast. Thefore in order to access the location within the object we use "{this.state.location}".
+
+At the moment, it seems like nothing has changed. However, if you go to the object you created and then change the value of location to another city you will see that your app automatically changes the text in the "h1" tag. This will be extremely useful when we are allowing the user to choose the location and the app can automatically respond to any changes by changing the state of the App component (we will cover how to change the state later on).
+
+## Passing the forecast information to sub-components
+
+We have succesfully made sure that the location of the forecast is dynamic by using the state of the component. However, we also need to make sure that the weather information is dynamic and that the forecast information we added onto the state can be accessed by our smaller components such as the WeatherInfo and the WeatherIcon component. We can do this using properties or as "props" as they are known in React. 
+
+A property is a piece of data that gets passed onto a component as if you are declaring an HTML attribute. A property can be a string, a number, a function, a method, object, etc. Lets look at how this works in our Weatgher example. 
+
+We want to pass the forecast list from our state in App.js to the ForecastList component we have created in ForecastList.js.
+
+1. In App.js, update the ForecastList tag to include a prop that is called "forecasts" as shown below:
+
+```javascript
+  <div className="weatherApp">
+    <h1>{this.state.location}</h1>
+    <ForecastList forecasts={this.state.forecastList}/>
+  </div>
+```
+
+Notice that a prop looks very similar to a HTML attribute, the syntax being name_of_prop = value_of_prop. What we are doing here is getting React to get the ForecastList component to have access to the information from this.state.forecastList which contains th array with the 5-day forecast infromation.
+
+2. Now lets move onto our ForecastList.js where we will need to access the information passed as a prop to this component. Originally, we have created five Forecast components as seen below:
+
+```javascript
+class ForecastList extends Component {
+    render() {
+        return (
+            <section>
+                <Forecast />
+                <Forecast />
+                <Forecast />
+                <Forecast />
+                <Forecast />
+            </section>
+        )
+    }
+} 
+```
+
+This is inefficient, and it does not really utilise the power of React. Instead, we will be replacing the 5 instances of Forecast with one function that iterates over the array of weather information we have passed as a prop. For each day of the 5 days of forecast we have, we want React to create a new Forecast component and give it access to its respective day of data. Update the render function of the ForecastList component to look as follows:
+
+```javascript
+class ForecastList extends Component {
+    render() {
+        return (
+            <section>
+                {this.props.forecasts.map( (forecast) => {
+                   return <Forecast forecast={forecast}/>
+                })}
+            </section>
+        )
+    }
+} 
+```
+
+If we breakdown the new code, this is what is happening:
+
+* The this.props.forecasts expression allows us to access the prop forecasts that we gave to out ForecastList component in the App.js
+* We use .map() to iterate over the array that we access through the prop forecasts. The .map() method takes a function as a parameter
+* The function we pass as a parameter needs one paremeter itself which we are calling (forecast). Each forecast will represent one value of the array of 5-day forecasts
+* Finally, inside of the function we are going to return a Forecast component with a prop of forecast so that we can access this information within the Forecast component. 
+
+With the code above, React will be able to read the array containing the forecast information and then create a Forecast component with each information.
+
+
+3. We have passed the individual weather information onto our Forecast component, so now we will be working on Forecast.js. Forecast.js is still not the component that will be utilising the relevant information. The weather icon and the weather information will be rendered by WeatherIcon.js and WeatherInfo.js so all that we need to do in Forecast.js is to give the WeatherIcon and WeatherInfo JSX elements access the to information via the prop forecast:
+
+```javascript
+return (
+  <article className="dayForecast">
+      <WeatherIcon forecast={this.props.forecast}/>
+      <WeatherInfo forecast={this.props.forecast} />
+  </article>
+        )
+```
+
+4. Now that we have passed the information from the state of App.js all the way to WeatherInfo and WeatherIcon we can use this information to dynamically display forecast for each day. In WeatherInfo, we need to replace all of the static weather information with the data from our props.forecast:
+
+```javascript
+
+class WeatherInfo extends Component {
+    render() {
+        return(
+            <main>
+                <h2>{this.props.forecast.day}</h2>
+                <h4>{this.props.forecast.forecast}</h4>
+                <aside>
+                    <ul>
+                        <li className="maxTemp">{this.props.forecast.max}</li>
+                        <li className="minTemp">{this.props.forecast.min}</li>
+                    </ul>
+                </aside>
+            </main>
+        )
+    }
+}
+
+```
+
+Notice now that instead of having actual static text information populating our tags, we have used the information from the weather data we added onto the state of App.js. Go back and check your application on your browser and see how each of the forecasts now have the relevant data for each day.
+
+5. We have effectively changed the text information, but we stil need to get the icon to change based on the forecast information. The WeatherIcon component is the one who handles the image that will be rendered. Previously, we only added one icon and so now we have to add the four different icons we need by importing them inside of WeatherIcon.js:
+
+```javascript
+import Rainy from'../images/rain.svg';
+import Sunny from'../images/sunny.svg';
+import Thunderstorms from'../images/storm.svg';
+```
+
+**Note:** if you need to check again where these icons are coming from have a look at the section that mentions [Link to Header](##Adding images on React)how to add images onto React. 
 
 
 # References to Icon images
