@@ -533,7 +533,7 @@ https://www.flaticon.com/free-icon/sunny_979585#term=sunny&page=1&position=1
 https://www.flaticon.com/free-icon/storm_1146860#term=thunderstorm&page=1&position=2
 
 
-# Part 2: Passing on dynamic information to the application
+# React Tutorial Part 2: Passing on dynamic information to the application
 
 ## Replacing static information
 
@@ -741,6 +741,54 @@ import Thunderstorms from'../images/storm.svg';
 
 **Note:** if you need to check again where these icons are coming from have a look at the section that mentions [Link to Header](##Adding images on React)how to add images onto React. 
 
+6. React components can also have methods. We need to create a method that will check the forecast of the day and then assign the correct icon based on the forecast. Below we have created the method:
+
+```javascript
+
+class WeatherIcon extends Component {
+
+    getIcon(forecast) {
+        if(forecast === "Sunny with Clouds"){
+            return Cloudy;
+        }else if (forecast ==="Rain") {
+            return Rainy;
+        }else if (forecast ==="Sunny") {
+            return Sunny;
+        }else{
+            return Thunderstorms;
+        }
+    }
+
+    render() {
+        return (
+            <figure>
+                <img src={Cloudy} alt={"Cloudy"}/>
+            </figure>
+        )
+    }
+}
+
+```
+
+This method gets the string from the forecast passed onto it, and then will check what the forecast is and then return the right icon icon. 
+
+7. The method has been created, but we need to use it now. Inside of the img tag, we will change the src and alt:
+
+```javascript
+
+<img src={this.getIcon(this.props.weatherInfo.forecast)} alt={this.props.weatherInfo.forecast}/>
+
+```
+
+The method will get the right image and then pass onto the src. Go back and check your web application, you will see that your icons and your weather forecasts have now changed and that if you change your object in App.js this will update your application. 
+
+# React Tutorial Part 3: API call 
+
+Coming soon!
+
+# React Tutorial Part 4: Getting user inputs
+
+Coming soon!
 
 # References to Icon images
 
