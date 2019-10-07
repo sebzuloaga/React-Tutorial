@@ -788,7 +788,7 @@ Once the static components have been created, we want to make sure that the weat
 
 In order to do this, we will add two input elements inside of the App component. In App.js, add the following input elements just after the main heading:
 
-```HTML
+```javascript
 
 <div>
   <h1>{this.state.location} Forecast</h1>
@@ -832,7 +832,7 @@ The process is as follows:
 
 A user types something new on the text field. Every new character (or white space) trigger the "onChange" event. The onChange event is handled by the methods "this.handleCityChange" and "this.handleCountryChange" which will log to the console the text value that has been included in the text input fields. Open the developer console and start typing on the text fields so that you can see the result.
 
-It is important to bind the methods you have just created so that they work with the current instance. We will clarify this a little bit later on. Add the following two lines of code inside of your constructor after you have defined the state of the class:
+It is important to bind the methods you have just created so that they work with the current instance. This step will be clarified during class, but if you want to learn more about it check this link https://reactjs.org/docs/faq-functions.html . Add the following two lines of code inside of your constructor after you have defined the state of the class:
 
 ```javascript
 
@@ -869,11 +869,61 @@ handleCityChange(e){
 
 ```
 
+The "setState" method allows us to change the current state of the component by passing in new information to it. In the code above, we are getting the text typed by the user and storing it within the variable "newText". Then we call the "setStatemethod" on the current component via the keyword "this". The setState takes one paramater in order to work, and it has to be an object with key / value pairs. In this object, if the key references exists in the state then the value of for this key will change to "newText". If the key does not exist then it will be created and given the value of "newText". In this case, the "searchCity" and "searchCountry" will be given the new value of newText for their respective text inputs. 
+
+Once the user has finished typing both the city and the country and the system as changed the state, then we want to add a button so that the user can confirm the input and start the API request. To get this started, we will start by adding the button that needs to be clicked after the two input field we have already created: 
+
+```javascript
+
+<input type="text" placeholder="City" onChange={this.handleCityChange}></input>
+<input type="text" placeholder="Country Code" onChange={this.handleCountryChange}></input>
+<button onClick={this.handleSubmit}>Submit!</button>
+
+```
+
+To this button, we have also added a method called "handleSubmit" which will be triggered by clicking on the button which we have added through the event "onClick". Now we have to create the method "handleSubmit" within this class after the methods you have already added and before the render method:
+
+```javascript
+
+handleSubmit(e){
+      this.setState( { location: this.state.searchCity});
+      console.log("You have clicked the buttON and it is working, now lets make the API call");
+  }
+
+```
+
+What this function does is that upon clicking the submit button, the searchCity term will now be the location for which the weather is being displayed. Now if you type a new city and country code, and then click the submit button you will see that the new city you type will now be displayed as the heading of the application. The console.log statement here is just a placeholder for when we add the actual API on the next major step of the tutorial.
+
+Before we move on, we also need to bind this method. In the constructor, bind the "handleSubmit" method as seen below:
+
+```javascript
+
+    this.handleCityChange = this.handleCityChange.bind(this);
+    this.handleCountryChange = this.handleCountryChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    
+```
+
+Currently, we have succesfully added a way for the user to decide on which location we want the forecast for but none of the information is changing as this is still static from out "state.forecastList". Now, it is finally time to add the live weather data and to connect the user's location choice to trigger a new API call to retrieve weather data which will then be added as the new "state.forecastList". 
 
 
-# React Tutorial Part 4: Getting user inputs
+# React Tutorial Part 4: OpenWeather API
 
-Coming soon!
+## Starting with Open Weather API
+
+## Creating the Call
+
+## Fetch & Then
+
+## Fromatting the API results
+
+## Calling the API from React
+
+## Changing the icons
+
+## Setting Brisbane as a default
+
+
 
 # References to Icon images
 
