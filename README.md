@@ -782,9 +782,11 @@ This method gets the string from the forecast passed onto it, and then will chec
 
 The method will get the right image and then pass onto the src. Go back and check your web application, you will see that your icons and your weather forecasts have now changed and that if you change your object in App.js this will update your application. 
 
-# React Tutorial Part 3: API call 
+# React Tutorial Part 3: Getting user input
 
-Coming soon!
+Once the static components have been created, we want to make sure that the weather displayed is not only for Brisbane. We want to get the user to request the location of the forecast. We will do this via a small HTML form that will ask user for a city and country so that later on the API knows which information to display. 
+
+
 
 # React Tutorial Part 4: Getting user inputs
 
