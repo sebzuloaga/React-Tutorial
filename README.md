@@ -784,7 +784,90 @@ The method will get the right image and then pass onto the src. Go back and chec
 
 # React Tutorial Part 3: Getting user input
 
-Once the static components have been created, we want to make sure that the weather displayed is not only for Brisbane. We want to get the user to request the location of the forecast. We will do this via a small HTML form that will ask user for a city and country so that later on the API knows which information to display. 
+Once the static components have been created, we want to make sure that the weather displayed is not only for Brisbane. We want to get the user to request the location of the forecast. We will do this via two HTML text inputs that will ask user for a city and country so that later on the API knows which information to display. 
+
+In order to do this, we will add two input elements inside of the App component. In App.js, add the following input elements just after the main heading:
+
+```HTML
+
+<div>
+  <h1>{this.state.location} Forecast</h1>
+  <input type="text" placeholder="City"></input>
+  <input type="text" placeholder="Country Code"></input>
+  <button onClick={this.handleSubmit}>Submit!</button>
+  <ForecastList forecastList={this.state.forecastList}/>
+</div>
+
+```
+
+We need to input fields because the API that we will be using requires both a city and a country code to be given in order to send back the weather information necessary.
+
+Now that we have the inputs, we need to be able to get the information the user has started writing on the input fields. React deals with events in a very similar way as normal HTML and JavaScript. In order to grab these events, we can use the keywork "on" plus the event that we want to trigger. For example and "onClick" sets a trigger to a click event or an "onChange" sets a trigger to when an element changes. In this case, we are going to set this event as part of the element as if it was a prop on each of the inputs. 
+
+```HTML
+
+  <input type="text" placeholder="City" onChange={this.handleCityChange}></input>
+  <input type="text" placeholder="Country Code" onChange={this.handleCountryChange}></input>
+
+```
+
+The code above establishes a connection between the user and our application. It states that whenever there is a change in the input form, the method "this.handleCityChange" or "this.handleCountryChange" will be triggered depending on which input is being used. Now that we have access to the event, we also need to create the methods "this.handleCityChange" and "this.handleCountryChange" so that they can extract the information. 
+
+Inside of the App class between your constructor and the render method, add the following code:
+
+``` javascript
+handleCityChange(e){
+  console.log(e.target.value);
+}
+
+handleCountryChange(e){
+  console.log(e.target.value);
+}
+
+```
+
+When triggering events within the input elements, the triggered event creates an event object that contains a lot of information that we can use. We can access this event as the first parameter of the function that is goind to handle the event. In the "handleCityChange(e)", the e parameter is the one that gets to access the event object. Therefore, when we say e.target.value what we mean is the value from the input field. 
+
+The process is as follows:
+
+A user types something new on the text field. Every new character (or white space) trigger the "onChange" event. The onChange event is handled by the methods "this.handleCityChange" and "this.handleCountryChange" which will log to the console the text value that has been included in the text input fields. Open the developer console and start typing on the text fields so that you can see the result.
+
+It is important to bind the methods you have just created so that they work with the current instance. We will clarify this a little bit later on. Add the following two lines of code inside of your constructor after you have defined the state of the class:
+
+```javascript
+
+this.handleCityChange = this.handleCityChange.bind(this);
+this.handleCountryChange = this.handleCountryChange.bind(this);
+    
+```
+
+Being able to log to the console is always nice for testing, but what we want to be able to do here is to grab the information the user has typed and include it in the state of the component so that we can later use it to make the weather API call. Let's add two state properties to the state of the App component. The first property is "searchCity" and "searchCountry", you will need to set both of them to an empty string:
+
+```javascript
+
+this.state = {
+      searchCity: "",
+      searchCountry: "",
+      location: "Brisbane",
+      ...
+
+```
+
+This new state information will allows us to save the results of the user's input. In order to do that, we will use the built in method in React called "setState". Change the methods "this.handleCityChange" and "this.handleCountryChange" to look like this:
+
+```javascript
+
+handleCityChange(e){
+    let newText = e.target.value;
+    this.setState({ searchCity: newText});
+  }
+
+  handleCountryChange(e){
+    let newText = e.target.value;
+    this.setState({ searchCountry: newText});
+  }
+
+```
 
 
 
