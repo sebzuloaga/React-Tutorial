@@ -1078,7 +1078,207 @@ The above mapping function will allow us to create a new array with all the info
 * Check all the objects for each date and check which is the description that occurs the most frequently so that we can used it as the description
 
 
-## Fromatting the API results
+## Fromatting the API results as days
+
+For this section, we will be creating some methods within the OpenWeather object. As this functionality will get a bit complicated, it will be explained via comments on the code rather than paragraphs. 
+
+We are going to create a method called convertToDaily inside of the OpenWeather object:
+
+```javascript
+
+Openweather = {
+  ...
+  convertToDaily(fullForecast) {
+      // We need to get the date for the first forecast and currently we have the date and time so we split the string and save the           // date as the day variable
+      
+      let dateTime = fullForecast[0].date.split(" ");
+      let day = dateTime[0];
+      
+      //We initialise all the variables we will be using. dailyInformation is an array containing the summarised data for each day
+      //the temperatures contains all the minimum and maximum values for each day so that we can get the absolute max and min
+      //the descriptions will hold the list of descriptions for each day so we can see the most frequent one
+      
+      let dailyInformation = [];
+      let temperatures = [];
+      let descriptions = []; 
+      
+      // We are getting a list of 3 hour forecasts for 5 days, which means that we will have a list of 40 weather forecasts
+      // We need to iterate through all of the forecasts and do something with them. At the moment, we just log each forecast.
+      //We loop for fullForecast.length + 1 because we will also need to do something special at the end.
+
+      for(let i = 0; i < fullForecast.length +1 ; i++){
+            console.log(fullForecast[i]);
+       }
+    }
+}
+
+```
+
+Also, before we get this to work, we need to get convertToDaily to work after the API information has been loaded. Therefore we are going to add the convertToDaily to the final .then() method in the requestWeather() method instead of the console.log statement we had before:
+
+```javascript
+
+        ...
+        }).then( (completeData) => {
+            this.convertToDaily(completeData);
+        });
+
+```
+
+With the new code, try it out with the command Node OpenWeather. You should see the 40 individual forecasts coming across. Now inside of the for loop, we need to do a lot of work to separate the 40 forecasts into 5 days that we can use in our application. The process here is to check which day we are on and if the new information forms part of the same current date, then the new information should be kept for comparison. Otherwise if the date is a new one, then we need to check for the descriptions and the temperatures to package all the information into one forecast. Lets revisit our convertToDaily method and inside the for loop add the following:
+
+```javascript
+
+for(let i = 0; i < fullForecast.length +1 ; i++){
+
+  
+     //As mentioned before, on the last iteration (when index is equal to 40 we will need to do something special so we will
+     // have an if statement to check for this and make sure that we leave it empty for now.
+     if( i === 40){
+
+          }else{
+              // For any other run at the loop that is not 40, we need to get the date of the current forecast for index i
+              // We do this in the same way as before, but now instead of the first item on the array we check for fullForecast[i]
+              
+              let currentDateTime = fullForecast[i].date.split(" ");
+              let currentDay = currentDateTime[0];
+              
+              //Here we check if the day set at the beginning is the same as the day of the current forecast and log the result
+              // If the days are different, then we have crossed over to the forecasts of another day and we need to aknowledge 
+              // this by chanding the day variable to the currentDay
+
+              if (currentDay === day) {
+                console.log(currentDay + " is the same as " + day);
+              }else{
+                console.log(currentDay + " is not the same as " + day);
+                day = currentDay;
+              }
+          }
+    }
+       
+```
+
+The above control flow will check if we are still on the same day. You can see what is being logged to the console as a test. Now that we can checl the dates, we need to combine all of the data for each day into the respective arrays. Delete the console.log statement inside the if statements and add the new code inside of the if statement:
+
+```javascript
+
+ if (currentDay === day) {
+        //If the days match, then we want to add the max temperature, min temperature, and decription onto the empty array
+        // called temperatures and descriptions that we created all the way when we started the convertToDaily function. 
+        // We are pushing the information from fullForecast at index i with the the respective keys (maxTemp, minTemp, description)
+        
+        temperatures.push(fullForecast[i].maxTemp);
+        temperatures.push(fullForecast[i].minTemp);
+        descriptions.push(fullForecast[i].description);
+    }
+    
+ ```
+
+To check the outcome of this step, output to the consoles both temperatures and desctiptions but do this as the last line of the loop. You should see two arrays being printed out, the first showing us the logged temperatures and the second showing us the descriptions. But we don't want a list of all of them, we want a list of each day. So now, on the else statement we are going to break them apart.
+
+```javascript
+
+if (currentDay === day) {
+      ...
+  }else{
+      // Once we cross over to the other day, we want for our current stored values to be pushed as an object into the dailyInformation
+      // array
+      dailyInformation.push( {
+          date: day,
+          forecast: descriptions,
+          temperatures: temperatures
+      })
+      
+      //Once the values are pushed into the array, we need to set the temperatures and descriptions to be empty as we will need 
+      // and empty array to store values for the new days. Given that the iteratot still continues, we will go ahead and store the
+      // values from the current index
+
+      temperatures = [];
+      temperatures.push(fullForecast[i].maxTemp);
+      temperatures.push(fullForecast[i].minTemp);
+
+      descriptions = [];
+      descriptions.push(fullForecast[i].description);
+      day = currentDay;
+  }
+        
+```
+To check the outcome of this step, output to the console the value of dailyInformation outside of the for loop to see what the end result is. There is one thing missing, the code inside the if statement that checks if the index is 40. When the index is 40 all of the values of the final day have been added onto our lists but they havent been pushed to the dailyInformation array. So when the index is 40 we need to do one more push:
+
+```javascript
+
+if (currentDay === day) {
+      dailyInformation.push( {
+          date: day,
+          forecast: descriptions,
+          temperatures: temperatures
+      })
+  }
+  
+```
+
+Check the log statement now and you will see that now you also have one more day. We have officially split the information into days. We will now be using these results to get the proper min and max temperatures for the whole day as well as the main description we will be using. 
+
+## Max and Min temperatures
+
+Now that we have the information of each day, we will create two methods inside the OpenWeather object. One will be called getMin and the other getMax and they will check all of the temperatures for each day and the using the reduce() method we will return the value that is either the minimum or the maximum. 
+
+```javascript
+
+// The function takes the full array of days as a parameter
+
+getMin(dayForecasts){
+        let minTemperatures = [];
+
+//We have a loop to check each day
+        for (i = 0; i < dayForecasts.length; i++) {
+        
+// for each day, we access it through the current index (i variable) and the property temperatures. This temperatures proeperty 
+// is a list of all temperatures and therefore we can use the reduce() method for arrays that returns one value based on reducing the
+// array to one value as per instructions. In this case we compare each value to the next one to see which one is the minimum
+            let min = dayForecasts[i].temperatures.reduce(function(a, b) {
+                return Math.min(a, b);
+            });
+
+//Once we have found the minimum, we will push it to the array minTemperatures, which will hold the minimum temp for each day in the
+// respective order
+
+            minTemperatures.push(min);
+        }
+
+        console.log(minTemperatures);
+    },
+    
+//getMax is the same as above but now we check for the max temperature
+
+getMax(dayForecasts){
+    let maxTemperatures = [];
+    for (i = 0; i < dayForecasts.length; i++) {
+        let max = dayForecasts[i].temperatures.reduce(function(a, b) {
+            return Math.max(a, b);
+        });
+
+        maxTemperatures.push(max);
+    }
+
+    console.log(maxTemperatures);
+}
+    
+```
+
+We have outputed to the console the final array of max and min temperatures. In order to get these new methods to work, we will call them at the end of the convertToDaily method we were working on before:
+
+```javascript
+convertToDaily(fullForecast){
+  ...
+
+  let minTemperatures = this.getMin(dailyInformation);
+  let maxTemperatures = this.getMax(dailyInformation);
+  
+}
+
+```
+
 
 ## Calling the API from React
 
