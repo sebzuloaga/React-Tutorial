@@ -1,4 +1,4 @@
-# React-Tutorial Part 1: Introduction to JSX & React
+# React-Tutorial Introduction to JSX & React
 
 In this tutorial you will learn how to get started with React JS. React is a framework that allows us to create websites that are built on the basis of reusable components. Traditional websites are built on the basis of adding all of the code to be rendered onto the single file. However React JS will separate your code onto different components and thus different files. 
 
@@ -23,6 +23,9 @@ In this tutorial you will be doing the following things:
 4. **Organising your files**
 5. **Creating the rest of the Components**
 6. **Replacing static information**
+7. **Getting User Input**
+8. **Making an OpenWeather API call**
+9. **Connecting the user input to the API call**
 
 
 
@@ -424,7 +427,7 @@ class App extends Component {
 export default App;
 ```
 
-**NOTE: at this stage, in your localhost:3000 you will not be able to see the code display and instead yu will see an error because we have still not created the ForecastList element and so React throws an error to let us know we are attempting to import a class that has not been defined. Here is the error you may see:
+**NOTE: at this stage, in your localhost:3000 you will not be able to see the code display and instead you will see an error because we have still not created the ForecastList element and so React throws an error to let us know we are attempting to import a class that has not been defined. Here is the error you may see:
 
 ![alt text](https://github.com/sebzuloaga/React-Tutorial/blob/master/images/ImportError.png "Import Error output")
 
@@ -1378,10 +1381,56 @@ getDescription(dayForecasts){
         return mainDescription;
     }
 
-```        
+```
 
+In order to check the code above, don't forget to add the call to this method from convertToDaily() just afterwe called this.getMax and this.getMin.
+
+With this code done, we have three different arrays containing 5 (in some cases 6 if the days are not cut off perfectly) elements of useful information. Now lets create out final list with the final information. We will be working again on convertToDaily().
+
+We will make another loop that will be repeated 5 times in order to create out final list of useful information. At the end of convertToDaily() add the following code:
+
+```javascript
+
+let minTemperatures = this.getMin(dailyInformation);
+let maxTemperatures = this.getMax(dailyInformation);
+let mainDescriptions = this.getDescription(dailyInformation);
+
+// We initialise the list that will contain the final information
+
+let finalWeatherInfo = [];
+
+// We run the loop five times for each of the 5 days we went to create. Sometimes the 
+// weather information we created contains 6 days because the API does not send data from each full
+// day and instead sends 40 forecasts from the current time and so sometimes instead of 5
+// unique days we receive 6. We don't care about the 6th day so we just run the loop five times
+
+    for( i = 0; i < 5; i++) {
+    
+// For each loop, we create and object where we pass the relevant informtion obatined from previous steps
+        let dayInformation = {
+            date: dailyInformation[i].date,
+            forecast: mainDescriptions[i],
+            max: maxTemperatures[i],
+            min: minTemperatures[i]
+        }
+// We push the dayInformation object we just created onto our finalWeatherInfo array.
+
+        finalWeatherInfo.push(dayInformation);
+    }
+    
+// We return the result
+
+    console.log(finalWeatherInfo);
+    return finalWeatherInfo;
+
+```
+
+With this final console.log statement, you will finally see that the information is the way that we desire and the same structure as our state.forecastList in the App.js component. Lets now get the OpenWeather functionality connected to our own app. 
 
 ## Calling the API from React
+
+We are just about to move onto our App.js component
+
 
 ## Changing the icons
 
