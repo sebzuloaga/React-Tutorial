@@ -1072,13 +1072,14 @@ return fetch(completeUrl).then( (response) => {
 
 ```
 
-The above mapping function will allow us to create a new array with all the information we actually care. The array contains objects with key value pairs as describe above. The full return statement in requestWeather method is the above.  
+The above mapping function will allow us to create a new array with all the information we actually care. The array contains objects with key value pairs as describe above. The full return statement in requestWeather method is the above. Try out the code with Node and see the array of results that comes back. You may notice that the API returns a forecast for every 3 hours. We only neeed a daily forecast and so we need to use the 3 hour forecasts to create a final one by doing the following:
 
-
-
+* Check all the objects for each date and check which is the minimum and maximum temperature across all of them
+* Check all the objects for each date and check which is the description that occurs the most frequently so that we can used it as the description
 
 
 ## Fromatting the API results
+
 
 ## Calling the API from React
 
