@@ -997,6 +997,25 @@ Now that we have started with out OpenWeather functionality, we can move on to g
 
 ## Fetch & Then
 
+In order for us to get the information from the API, we will be using fetch() which we have added onto our application through the require node-fetch statement earlier. In this section, we will complete the method requestWeather() so all of our new code will be added inside of this method. 
+
+With fetch() we will be able to do a GET request to the API so that the API can send back to our own application the data that we have requested. How does the API know which data we wanted? It will know based on the URL we have stored: 
+
+```javascript
+
+const OpenWeather = {
+    requestWeather() {
+        const completeUrl = baseUrl + apiKey;
+        return fetch(completeUrl);
+        console.log('Weather Requested');
+    }
+};
+
+```
+
+First we make sure that we add our API key onto the baseURL we had before. The we get fetch the data from the completeURL endpoint which we have tested before in our browser. 
+
+
 ## Fromatting the API results
 
 ## Calling the API from React
