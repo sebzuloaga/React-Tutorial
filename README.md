@@ -955,7 +955,7 @@ const apiKey = "your key should be here, for security reasons I have not added m
 ```javascript
 const fetch = require('node-fetch');
 
-const apiKey = "f411c7c62d8111abe6bdde05b949e1e1";
+const apiKey = "";
 const baseUrl = "http://api.openweathermap.org/data/2.5/forecast?q=Brisbane,AU&units=metric&appid=";
 
 ```
