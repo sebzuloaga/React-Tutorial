@@ -971,7 +971,7 @@ The URL you created above can be tested by copying it and pasting it into the an
 const fetch = require('node-fetch');
 
 const apiKey = "f411c7c62d8111abe6bdde05b949e1e1";
-const baseUrl = "http://api.openweathermap.org/data/2.5/forecast?q=";
+const baseUrl = "http://api.openweathermap.org/data/2.5/forecast?q=Brisbane,AU&units=metric&appid=";
 
 const OpenWeather = {
     requestWeather() {
