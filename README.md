@@ -1022,6 +1022,61 @@ Node and React work in an interesting way when it comes to its processes. Some p
 
 
 
+```javascript
+
+const OpenWeather = {
+    requestWeather() {
+        const completeUrl = baseUrl + apiKey;
+        return fetch(completeUrl).then( (response) => {
+            console.log(response);
+        });
+    }
+};
+
+console.log(OpenWeather.requestWeather());
+
+```
+
+The then() function gets chained to the fetch() request. The return information from the fetch is then passed onto the then() callback as the 'response' parameter. Then we log this repsonse and here you will be able to actually see what the API is sending back. How this works is that the then() function will only start processing when the asynchronous fetch request has finalised and the reponse is ready. Now that we have started with using then(), we will be using it often to control the order of things to ensure processes do not start before their requirements are ready. 
+
+If you noticed the response that was logged does not exactly seem like the information we need. Let's actually get the information we need:
+
+```javascript
+
+return fetch(completeUrl).then( (response) => {
+            return response.json();
+        }).then( (data) => {
+            console.log(data);
+        });
+        
+```
+
+We parse the response from the fetch() and parse it as JSON. Then we chain another then() method to be able to log those results and see what the result is. You can start seeing how we are chaining some callback functions. You will see the new parsed result is starting to have more useful information. If you want to see the structure of a response from the API, have a look at this link https://openweathermap.org/forecast5 under the section JSON response.
+
+While with some APIs you may be able to use the information after parsing the JSON response, with our application the information from the API does not come across perfectly and so we need to extract and manipulate the data. We will create our own array that contains the description, date, maximum temperature, and minimum temperature.
+
+```javascript
+
+return fetch(completeUrl).then( (response) => {
+            return response.json();
+        }).then( (data) => {
+            return data.list.map( (weatherInterval) => ({
+                description: weatherInterval.weather[0].description,
+                date: weatherInterval['dt_txt'],
+                maxTemp: weatherInterval.main['temp_max'],
+                minTemp: weatherInterval.main['temp_min']
+            }));
+        }).then( (list) => {
+            console.log(list);
+        });
+
+```
+
+The above mapping function will allow us to create a new array with all the information we actually care. The array contains objects with key value pairs as describe above. The full return statement in requestWeather method is the above.  
+
+
+
+
 
 ## Fromatting the API results
 
