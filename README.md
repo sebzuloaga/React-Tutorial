@@ -1080,7 +1080,6 @@ The above mapping function will allow us to create a new array with all the info
 
 ## Fromatting the API results
 
-
 ## Calling the API from React
 
 ## Changing the icons
