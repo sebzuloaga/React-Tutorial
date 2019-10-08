@@ -804,7 +804,7 @@ We need to input fields because the API that we will be using requires both a ci
 
 Now that we have the inputs, we need to be able to get the information the user has started writing on the input fields. React deals with events in a very similar way as normal HTML and JavaScript. In order to grab these events, we can use the keywork "on" plus the event that we want to trigger. For example and "onClick" sets a trigger to a click event or an "onChange" sets a trigger to when an element changes. In this case, we are going to set this event as part of the element as if it was a prop on each of the inputs. 
 
-```HTML
+```javascript
 
   <input type="text" placeholder="City" onChange={this.handleCityChange}></input>
   <input type="text" placeholder="Country Code" onChange={this.handleCountryChange}></input>
@@ -911,7 +911,60 @@ Currently, we have succesfully added a way for the user to decide on which locat
 
 ## Starting with Open Weather API
 
+For this React tutorial, we will be using the OpenWeather API to get our forecast information. In order for you to use this API, you will need to create your own account and get a key for you to use. Head to https://home.openweathermap.org/users/sign_up to register and get a key for your application. The OpenWeather app has both free and paid functionalities, we will be using the free version in order to get a 5-day / 3 hour forecast.
+
+Once you go through the process of regisrtation and you get your key via email (or through your profile page on the API website) we are ready to begin our calls to the API. 
+
+**Note:** even when you receive your key, it may take up to a couple of hours to activate so you may get some errors. Use the link example provided to you in your email confirmation to check the key validity. If you get an error, the key is still not active yet but if you can see some weather information then the key is working. 
+
 ## Creating the Call
+
+For this tutorial, we will be covering some aspects of how the API works, however if you are interested in learning how the 5-day / 3 hour forecast part of the API works then you can visit the documentation at https://openweathermap.org/forecast5 .
+
+The first thing that we will do is to create a new directory called "util" inside of the "src" folder we have been working on. The directory name "util" is sometimes used as a convention for non-component functionality. In this case, we are going to add all of out OpenWeather call functionalities here. Inside the "util" folder, create a file called OpenWeather.js. 
+
+There are three main things we will need to start the our OpenWeather API call:
+
+1- Node-fetch: a package that will allows us to make fetch reqeuests
+2- API key: your own personal key so that the API can validate the request
+3- URL endpoint: the URL that will be used by the API call to reach the particular resource in OpenWeather that we are trying to access
+
+Lets start adding some of these things onto our OpenWeather.js :
+
+1- Node-fetch cannot be used if you have not added it as part of the packages you are using. To check if you have node-fetch, you can run the command 'node-fetch -v' on the terminal inside the working directory. Otherwise, to include node-fetch you can run the command 'npm install node-fetch --save' in the folder you are currently working on. 
+
+2- Once node-fetch has been installed, you need to add it as a module you will be using:
+
+```javascript
+
+const fetch = require('node-fetch');
+
+```
+
+3- Now you need to add your API key:
+
+```javascript
+const fetch = require('node-fetch');
+
+const apiKey = "your key should be here, for security reasons I have not added my key";
+
+```
+
+4 - We also need to add a URL. For the sake of testing, we will be using a static URL now, but we will be chanching this later to change the URL based on the specific input from the user:
+
+```javascript
+const fetch = require('node-fetch');
+
+const apiKey = "f411c7c62d8111abe6bdde05b949e1e1";
+const baseUrl = "http://api.openweathermap.org/data/2.5/forecast?q=Brisbane,AU&units=metric&appid=";
+
+```
+
+This URL is the specific endpoint that we need to reach in order to get the information necessary from OpenWeather. In this case, we are asking for the forecast and we add into the query the fact that we want to grab the information for Brisbane,AU so "q=Birsbane,AU" and we want the information in celsius so we also request for "units=metric". A the end of the URL we also need to add your API key.
+
+The URL you created above can be tested by copying it and pasting it into the any browser. When you enter this URL you should see a lot of weather information showing up as a JSON object.  
+
+
 
 ## Fetch & Then
 
