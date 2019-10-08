@@ -1007,13 +1007,20 @@ const OpenWeather = {
     requestWeather() {
         const completeUrl = baseUrl + apiKey;
         return fetch(completeUrl);
-        console.log('Weather Requested');
     }
 };
+
+console.log(OpenWeather.requestWeather());
 
 ```
 
 First we make sure that we add our API key onto the baseURL we had before. The we get fetch the data from the completeURL endpoint which we have tested before in our browser. 
+
+**Note:** in the above code we wrapped the OpenWeather.requesWeather() in a console.log() so that we can see what the return from the fetch function. In the terminal you will see "Promise { <pending> }", and what this means is that there is a request that is pending and that has not been fulfilled yet but this will not show you the results of the promise being fulfilled. When we use fetch() we are essentially creating a new Promise(), you can read more about promises on JavaScript here https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise .
+
+Node and React work in an interesting way when it comes to its processes. Some processes are run asynchronously and some processes are run syncrhonously. The problem here is that we could be writing a piece of code that only works if another process has been completed. The fetch promise is an asynchronous process meaning that Node and React will keep running other code while promises are being fulfilled. So we need to make sure that we handle the requests with then().
+
+
 
 
 ## Fromatting the API results
