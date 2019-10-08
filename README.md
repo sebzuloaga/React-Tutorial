@@ -1089,21 +1089,25 @@ We are going to create a method called convertToDaily inside of the OpenWeather 
 Openweather = {
   ...
   convertToDaily(fullForecast) {
-      // We need to get the date for the first forecast and currently we have the date and time so we split the string and save the           // date as the day variable
+      // We need to get the date for the first forecast and currently we have the date 
+      //and time so we split the string and save the date as the day variable
       
       let dateTime = fullForecast[0].date.split(" ");
       let day = dateTime[0];
       
-      //We initialise all the variables we will be using. dailyInformation is an array containing the summarised data for each day
-      //the temperatures contains all the minimum and maximum values for each day so that we can get the absolute max and min
-      //the descriptions will hold the list of descriptions for each day so we can see the most frequent one
+      //We initialise all the variables we will be using. dailyInformation is an 
+      //array containing the summarised data for each day the temperatures contains all 
+      //the minimum and maximum values for each day so that we can get the absolute max and min
+      //the descriptions will hold the list of descriptions for each day so we can see 
+      //the most frequent one
       
       let dailyInformation = [];
       let temperatures = [];
       let descriptions = []; 
       
-      // We are getting a list of 3 hour forecasts for 5 days, which means that we will have a list of 40 weather forecasts
-      // We need to iterate through all of the forecasts and do something with them. At the moment, we just log each forecast.
+      // We are getting a list of 3 hour forecasts for 5 days, which means that we will
+      //have a list of 40 weather forecasts. We need to iterate through all of the forecasts and 
+      //do something with them. At the moment, we just log each forecast.
       //We loop for fullForecast.length + 1 because we will also need to do something special at the end.
 
       for(let i = 0; i < fullForecast.length +1 ; i++){
@@ -1132,19 +1136,24 @@ With the new code, try it out with the command Node OpenWeather. You should see 
 for(let i = 0; i < fullForecast.length +1 ; i++){
 
   
-     //As mentioned before, on the last iteration (when index is equal to 40 we will need to do something special so we will
-     // have an if statement to check for this and make sure that we leave it empty for now.
+     //As mentioned before, on the last iteration (when index is equal to 40 we will 
+     //need to do something special so we will have an if statement to check for this and make 
+     //sure that we leave it empty for now.
+     
      if( i === 40){
 
           }else{
-              // For any other run at the loop that is not 40, we need to get the date of the current forecast for index i
-              // We do this in the same way as before, but now instead of the first item on the array we check for fullForecast[i]
+              // For any other run at the loop that is not 40, we need to get 
+              //the date of the current forecast for index i. We do this in the same 
+              //way as before, but now instead of the first item on the array we check 
+              //for fullForecast[i]
               
               let currentDateTime = fullForecast[i].date.split(" ");
               let currentDay = currentDateTime[0];
               
-              //Here we check if the day set at the beginning is the same as the day of the current forecast and log the result
-              // If the days are different, then we have crossed over to the forecasts of another day and we need to aknowledge 
+              //Here we check if the day set at the beginning is the same as the day 
+              //of the current forecast and log the result. If the days are different, 
+              //then we have crossed over to the forecasts of another day and we need to aknowledge 
               // this by chanding the day variable to the currentDay
 
               if (currentDay === day) {
@@ -1163,9 +1172,11 @@ The above control flow will check if we are still on the same day. You can see w
 ```javascript
 
  if (currentDay === day) {
-        //If the days match, then we want to add the max temperature, min temperature, and decription onto the empty array
-        // called temperatures and descriptions that we created all the way when we started the convertToDaily function. 
-        // We are pushing the information from fullForecast at index i with the the respective keys (maxTemp, minTemp, description)
+        //If the days match, then we want to add the max temperature, min 
+        //temperature, and decription onto the empty array called temperatures 
+        //and descriptions that we created all the way when we started the convertToDaily function. 
+        // We are pushing the information from fullForecast at index i with the the 
+        // respective keys (maxTemp, minTemp, description)
         
         temperatures.push(fullForecast[i].maxTemp);
         temperatures.push(fullForecast[i].minTemp);
@@ -1181,16 +1192,17 @@ To check the outcome of this step, output to the consoles both temperatures and 
 if (currentDay === day) {
       ...
   }else{
-      // Once we cross over to the other day, we want for our current stored values to be pushed as an object into the dailyInformation
-      // array
+      // Once we cross over to the other day, we want for our current stored values to 
+      // be pushed as an object into the dailyInformation array
       dailyInformation.push( {
           date: day,
           forecast: descriptions,
           temperatures: temperatures
       })
       
-      //Once the values are pushed into the array, we need to set the temperatures and descriptions to be empty as we will need 
-      // and empty array to store values for the new days. Given that the iteratot still continues, we will go ahead and store the
+      //Once the values are pushed into the array, we need to set the temperatures
+      //and descriptions to be empty as we will need and empty array to store values 
+      //for the new days. Given that the iteratot still continues, we will go ahead and store the
       // values from the current index
 
       temperatures = [];
@@ -1233,20 +1245,25 @@ getMin(dayForecasts){
 //We have a loop to check each day
         for (i = 0; i < dayForecasts.length; i++) {
         
-// for each day, we access it through the current index (i variable) and the property temperatures. This temperatures proeperty 
-// is a list of all temperatures and therefore we can use the reduce() method for arrays that returns one value based on reducing the
-// array to one value as per instructions. In this case we compare each value to the next one to see which one is the minimum
+// For each day, we access it through the current index (i variable) and the property
+// temperatures. This temperatures proeperty is a list of all temperatures and therefore
+// we can use the reduce() method for arrays that returns one value based on reducing the
+// array to one value as per instructions. In this case we compare each value to the next
+// one to see which one is the minimum
+
             let min = dayForecasts[i].temperatures.reduce(function(a, b) {
                 return Math.min(a, b);
             });
 
-//Once we have found the minimum, we will push it to the array minTemperatures, which will hold the minimum temp for each day in the
-// respective order
+//Once we have found the minimum, we will push it to the array minTemperatures, which will 
+//hold the minimum temp for each day in the respective order
 
             minTemperatures.push(min);
         }
 
         console.log(minTemperatures);
+// return the result from the function
+        return minTemperatures;
     },
     
 //getMax is the same as above but now we check for the max temperature
@@ -1262,6 +1279,8 @@ getMax(dayForecasts){
     }
 
     console.log(maxTemperatures);
+// return the result from the function
+    return maxTemperatures;
 }
     
 ```
@@ -1278,6 +1297,88 @@ convertToDaily(fullForecast){
 }
 
 ```
+
+You will see in your console two arrays coming up one with the ordered min temperatures and the other with the ordered max temperatures. Now we can move onto the descriptions.   
+
+## Getting the main descriptions
+
+Lets create another method called getDescription:
+
+```javascript
+
+getDescription(dayForecasts){
+
+// Initialise the array we will return with the descriptions
+        let mainDescriptions = [];
+// We need to iterate through each of the days
+        for (i = 0; i < dayForecasts.length; i++) {
+            
+// We create an object descriptionCount to keep count of how many times each description 
+// repeats itself, and we also get the currentDayDescriptions by accessing the forecast property
+// of the current dayForecast[i]
+
+            let descriptionCount = {};
+            currentDayDescriptions = dayForecasts[i].forecast;
+            
+// We need to iterate through the list of descriptions for a particular day, and keep count
+// of its repetition. We do this by checking whether or not the current description is on the 
+// object descriptionCount. If it is, then add 1 to the current number. If the description is not there
+// we add it to the object and start it at one. 
+
+            for (j = 0; j < currentDayDescriptions.length; j++){
+                if( currentDayDescriptions[j] in descriptionCount){
+                    descriptionCount[currentDayDescriptions[j]] = descriptionCount[currentDayDescriptions[j]] +1;
+                }else{
+                    descriptionCount[currentDayDescriptions[j]] = 1;
+                }
+            }
+        }
+
+        console.log(descriptionCount);
+    }
+    
+```
+
+The above gets us the count for each type of description, but it does not separate the days. Therefore, after the secon loop, we need to check for the descriptions that have been entered up until day as those are all part of the same day.
+
+``` javascript
+
+getDescription(dayForecasts){
+
+        let mainDescriptions = [];
+
+        for (i = 0; i < dayForecasts.length; i++) {
+            
+            ...
+            
+// We give highestFrequency a 0 to be able to compare two numbers
+
+            let highestFrequency = 0;
+            
+// We then iterate through the keys of the object and get the values for those keys. We then
+// compare the current value against the highestFrequency and overwrite the highestFrequency 
+// with the current value if that one is bigger
+
+            Object.keys(descriptionCount).forEach( (key, index) => {
+                let currentComparison = descriptionCount[key];
+                highestFrequency = Math.max(highestFrequency, currentComparison);
+            })
+            
+ // We now have the amount of times the most repeated number in highest frequency.
+ // We can then use this value to find the key that holds this value and push it to 
+ // the mostFrequentDescription array
+
+            let mostFrequentDescription = Object.keys(descriptionCount).find(key => descriptionCount[key] === highestFrequency);
+
+            mainDescriptions.push(mostFrequentDescription);
+        }
+
+        console.log(mainDescriptions);
+// return the result from the function
+        return mainDescription;
+    }
+
+```        
 
 
 ## Calling the API from React
