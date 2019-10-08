@@ -962,9 +962,38 @@ const baseUrl = "http://api.openweathermap.org/data/2.5/forecast?q=Brisbane,AU&u
 
 This URL is the specific endpoint that we need to reach in order to get the information necessary from OpenWeather. In this case, we are asking for the forecast and we add into the query the fact that we want to grab the information for Brisbane,AU so "q=Birsbane,AU" and we want the information in celsius so we also request for "units=metric". A the end of the URL we also need to add your API key.
 
-The URL you created above can be tested by copying it and pasting it into the any browser. When you enter this URL you should see a lot of weather information showing up as a JSON object.  
+The URL you created above can be tested by copying it and pasting it into the any browser. When you enter this URL you should see a lot of weather information showing up as a JSON object.
 
+5- We need to create an OpenWeather object that will containt all the methods / functionality for the API call and its handling. We will add the first method called "requestWeather" just to output something onto the console to test everything is working. 
 
+```javascript
+
+const fetch = require('node-fetch');
+
+const apiKey = "f411c7c62d8111abe6bdde05b949e1e1";
+const baseUrl = "http://api.openweathermap.org/data/2.5/forecast?q=";
+
+const OpenWeather = {
+    requestWeather() {
+        console.log('Weather Requested');
+    }
+}
+
+```
+
+6- After all of this code, in order for us to make sure everything is working we call the requestWeather() method:
+
+```
+
+OpenWeather.requestWeather();
+
+```
+
+For now, we will not be outputting this information onto the browser console and instead we will be using Node to check the code. In your terminal you will be running "OpenWeather.js" through the command "node OpenWeather". Depending on the current directory in whichb your terminal is working, you may have to change your directory to the "util" folder. 
+
+If everything has run correctly, you should see your terminal logging "Weather Requested". 
+
+Now that we have started with out OpenWeather functionality, we can move on to getting the necessary information from our API. 
 
 ## Fetch & Then
 
