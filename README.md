@@ -1408,7 +1408,7 @@ let finalWeatherInfo = [];
     
 // For each loop, we create and object where we pass the relevant informtion obatined from previous steps
         let dayInformation = {
-            date: dailyInformation[i].date,
+            day: dailyInformation[i].date,
             forecast: mainDescriptions[i],
             max: maxTemperatures[i],
             min: minTemperatures[i]
@@ -1476,16 +1476,101 @@ How do we change the weather information, well we need to call the API and get t
 ```javascript
 
 handleSubmit(e){
-      this.setState({ location: this.state.searchCity});
-      console.log("You have clicked the buttON and it is working, now lets make the API call");
+      OpenWeather.requestWeather(this.state.searchCity, this.state.searchCountry).then ( 
+        (data) => {
+          this.setState( {forecastList:data, location: this.state.searchCity});
+      })
   }
   
 ```
 
+Now, when the button is submitted, the request takes the text input from the user via the state.searchCity and searchCountry. Then the OpenWeather.requestWeather gets triggered and requests the weather information for that location. Once the information is returned, then the information is used to update state.forecastList which contains all the weather information. With the new weather information, React checks that data has changed and it updates the data and passes it down to all the child components to the locations we indicated from our original static structure. 
+
+You will notice that the images don't change because the structure of the data is a bit different now. Lets fix this. 
+
 ## Changing the icon.
+
+You may notice that our new descriptions are a bit different than the placeholder descriptions we used to create the static components. Therefore we need to change the comparison logic to cater for the new descriptions. Go to WeatherIcon.js and update the getIcon():
+
+```javascript
+
+getIcon(forecast) {
+        if(forecast.includes("clouds")){
+            return Cloudy;
+        }else if (forecast.includes("rain")) {
+            return Rainy;
+        }else if (forecast.includes("clear")) {
+            return Sunny;
+        }else{
+            return Thunderstorms;
+        }
+    }
+    
+```
+
+The function will now check the description and see if the description text includes another piece of text like "clouds" or "rain" in order to check which image to return. The default case is if it can't find anything to match then it will display the ThunderStorms icon. This is not the optimal system, but it is a good way to limit the amount of icons we use. 
+
+Finally, you may notice that everytime that we reload the application, we are getting the initial static information we were using to test the static components. This is not what we want, we want the application to get the actual Brisbane forecast when it loads up. Therefore, upon the page loading we want to use OpenWeather to grab the forecast and then display the actual data. 
 
 ## Setting Brisbane as a default
 
+In order to set up Brisbane to be the default and load Brisbane's forecast once the application is ready. Here, we will introduce the React lifecycle methods. React has a series of methods that can be triggered for specific events that occur to React components. For example, if we want something to happen before a component Updates we can use the built in "componentWillUpdate()" method. If we want something to happen when React recognises that a component can be mounted or added to the application then we can use "componentWillMount()". If you want to learn more about the React Lifecycle have a look at these two links: https://reactjs.org/docs/state-and-lifecycle.html , https://programmingwithmosh.com/javascript/react-lifecycle-methods/ .
+
+Essentially, we want to check that if the App component works we get some weather information for Brisbane as the default before the component actually renders. 
+
+The first thing we will do is to update the state.location to bean empty string and state.forecastList to be an empty array:
+
+```javascript
+
+this.state = {
+      searchCity: "",
+      searchCountry: "",
+      location: "",
+      forecastList: []
+    }
+
+```
+
+Now we start with an empty template. You will see in your browser that at the moment there will be an error when rendering because React is being told to use empty information for a lot of processes. We need to fix this up with out componentWillMount(). Add the following code before you start the handleCityChange() insie of App.js:
+
+```javascript
+
+componentWillMount(){
+    OpenWeather.requestWeather("Brisbane","au").then( (results) => {
+      this.setState( {forecastList: results, location: "Brisbane"})
+    })
+  }
+
+```
+
+Once the App component is mountable and before it renders the code in the function componentWillMount() will run. Inside here we request a call to the API, but in this case we pass the fixed values "Brisbane" and "au" because this is the default and then we set the state for forecastList and location just as we have done before.
+
+Thats it! Your code should now work! It is far from perfect but its a good start
+
+# What we covered & extending the project
+
+In this tutorial we covered the following:
+
+* Setting up Create-React-App
+* Understanding some essential React concepts
+* JSX Syntax
+* Creating and using components
+* Using props & state
+* Adding events to React elements
+* Getting user input
+* Updating state with user input
+* Calling the OpenWeather API
+* Formatting the OpenWeather API data
+* Using data from API calls in our React App
+
+This is a lot of information, and its completely fine if it takes some time to cover all of it. React can be extended with much more functionality beyond what we have done in this tutorial. Here are some ideas for you to start practicing:
+
+* Change the date from the API call to also show what type of day it is (Monday, Tuesday, etc.)
+* Instead of the icons that we downloaded, use the icons from OpenWeather
+* Add error handling so that if a user enters an invalid location or country the system can handle this elegantly
+* Have a look at what Redux is, and see if there is any 
+* Having a look at animating some of your elements. This is a starting point: https://medium.com/@dmitrynozhenko/5-ways-to-animate-a-reactjs-app-in-2019-56eb9af6e3bf
+* Rather than have Brisbane as default, get the browser to request the user's location and then call the API with the user's location as the first call. Maybe this npm package could help you: https://www.npmjs.com/package/geolocator
 
 
 # References to Icon images
