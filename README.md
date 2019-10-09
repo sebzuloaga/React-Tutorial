@@ -1156,7 +1156,7 @@ for(let i = 0; i < fullForecast.length +1 ; i++){
               
               //Here we check if the day set at the beginning is the same as the day 
               //of the current forecast and log the result. If the days are different, 
-              //then we have crossed over to the forecasts of another day and we need to aknowledge 
+              //then we have crossed over to the forecasts of another day and we need to acknowledge 
               // this by chanding the day variable to the currentDay
 
               if (currentDay === day) {
@@ -1246,7 +1246,7 @@ getMin(dayForecasts){
         let minTemperatures = [];
 
 //We have a loop to check each day
-        for (i = 0; i < dayForecasts.length; i++) {
+        for (let i = 0; i < dayForecasts.length; i++) {
         
 // For each day, we access it through the current index (i variable) and the property
 // temperatures. This temperatures proeperty is a list of all temperatures and therefore
@@ -1261,7 +1261,7 @@ getMin(dayForecasts){
 //Once we have found the minimum, we will push it to the array minTemperatures, which will 
 //hold the minimum temp for each day in the respective order
 
-            minTemperatures.push(min);
+            minTemperatures.push(Math.round(min));
         }
 
         console.log(minTemperatures);
@@ -1273,12 +1273,12 @@ getMin(dayForecasts){
 
 getMax(dayForecasts){
     let maxTemperatures = [];
-    for (i = 0; i < dayForecasts.length; i++) {
+    for (let i = 0; i < dayForecasts.length; i++) {
         let max = dayForecasts[i].temperatures.reduce(function(a, b) {
             return Math.max(a, b);
         });
 
-        maxTemperatures.push(max);
+        maxTemperatures.push(Math.round(max));
     }
 
     console.log(maxTemperatures);
@@ -1314,21 +1314,21 @@ getDescription(dayForecasts){
 // Initialise the array we will return with the descriptions
         let mainDescriptions = [];
 // We need to iterate through each of the days
-        for (i = 0; i < dayForecasts.length; i++) {
+        for (let i = 0; i < dayForecasts.length; i++) {
             
 // We create an object descriptionCount to keep count of how many times each description 
 // repeats itself, and we also get the currentDayDescriptions by accessing the forecast property
 // of the current dayForecast[i]
 
             let descriptionCount = {};
-            currentDayDescriptions = dayForecasts[i].forecast;
+            let currentDayDescriptions = dayForecasts[i].forecast;
             
 // We need to iterate through the list of descriptions for a particular day, and keep count
 // of its repetition. We do this by checking whether or not the current description is on the 
 // object descriptionCount. If it is, then add 1 to the current number. If the description is not there
 // we add it to the object and start it at one. 
 
-            for (j = 0; j < currentDayDescriptions.length; j++){
+            for (let j = 0; j < currentDayDescriptions.length; j++){
                 if( currentDayDescriptions[j] in descriptionCount){
                     descriptionCount[currentDayDescriptions[j]] = descriptionCount[currentDayDescriptions[j]] +1;
                 }else{
@@ -1429,10 +1429,60 @@ With this final console.log statement, you will finally see that the information
 
 ## Calling the API from React
 
-We are just about to move onto our App.js component
+We are just about to move onto our App.js component, but there are a couple of changes we need to do inside of OpenWeather.js in order to get our data ready:
 
+1- Rather than call the function OpenWeather.requestWeather() at the end of OpenWeather.js, we need to export the OpenWeather component so that it can be used within our App.js. Change the last line of OpenWeather.js to an export statement:
 
-## Changing the icons
+```javascript 
+
+export default OpenWeather;
+
+```
+
+2- We were only testing the functionality of convertToDaily() before, but now we actually need to return it. Inside of requestWeather(), make sure that before you call the convertToDaily() method you also add the keywork "return" so that the final weather information is actually returned when we requst the API data.
+
+``` jvascript
+
+.then( (completeData) => {
+    return this.convertToDaily(completeData);
+})
+
+```
+
+3- At the moment, our data is always requesting weather for Brisbane however in the actual application we will be receiving a city / town and country and getting the weather for that specific location. Therefore, we need to prepare our function to receive some information and to change the requested URL based on this. We will be changing the baseUrl constant at the beginning of the script and  the beginning of the requestWeather() method:
+
+```javascript
+
+const baseUrl = "http://api.openweathermap.org/data/2.5/forecast?q=";
+
+const OpenWeather = {
+    requestWeather(city, country) {
+        const completeUrl = baseUrl + city + "," + country + "&units=metric&appid=" + apiKey;
+
+```
+
+Here, we changesd the baseURL to not include Brisbane and AU anymore as this information will not always be Brisbane AU. For us to get the city and country information, we will pass this data into our requestWeather(city, country) method as city and country. This information will be provided by the state from the App.js. Finally, we build the complete URL by adding the baseUrl string plus the city, country, the reques for metric system, and the API key. 
+
+Now requestWeather(city, country) is expecting to be given a city and country for it to be able to know which information to request from the API. Now we can move onto the App.js component. Before we move onto using OpenWeather, we need to import it at the top of App.js:
+
+```javascript
+
+import OpenWeather from '../util/OpenWeater';
+
+```
+
+How do we change the weather information, well we need to call the API and get those results to update the state. We already have this functionality partly implemented from part 3 when we allowed for the text input to check which city and country has been typed by the user and the click on the submit button should be the one to trigger the request. Head to the handleSubmit() method inside of the App component, and change the current placeholder content with a call to the OpenWeather API:
+
+```javascript
+
+handleSubmit(e){
+      this.setState({ location: this.state.searchCity});
+      console.log("You have clicked the buttON and it is working, now lets make the API call");
+  }
+  
+```
+
+## Changing the icon.
 
 ## Setting Brisbane as a default
 
