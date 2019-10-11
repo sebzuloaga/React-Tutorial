@@ -1,82 +1,145 @@
-import React, {Component} from 'react';
-import ForecastList from '../ForecastList/ForecastList';
-import './App.css';
+const fetch = require('node-fetch');
 
-class App extends Component {
+const apiKey = "f411c7c62d8111abe6bdde05b949e1e1";
+const baseUrl = "http://api.openweathermap.org/data/2.5/forecast?q=";
 
-  constructor(props){
-    super(props);
+const OpenWeather = {
+    requestWeather(city, country) {
+        const completeUrl = baseUrl + city + "," + country + "&units=metric&appid=" + apiKey;
+        return fetch(completeUrl).then( (response) => {
+            return response.json();
+        }).then( (data) => {
+            return data.list.map( (weatherInterval) => ({
+                description: weatherInterval.weather[0].description,
+                date: weatherInterval['dt_txt'],
+                maxTemp: weatherInterval.main['temp_max'],
+                minTemp: weatherInterval.main['temp_min']
+            }));
+        }).then( (completeData) => {
+            return this.convertToDaily(completeData);
+        })
+    },
 
-    this.state = {
-      searchCity: "",
-      searchCountry: "",
-      location: "Brisbane",
-      forecastList: [
-        {
-          day:"Monday",
-          forecast: "Sunny with Clouds",
-          max: 30,
-          min: 20
-        },
-        {
-          day:"Tuesday",
-          forecast: "Rain",
-          max: 30,
-          min: 20
-        },
-        {
-          day:"Wednesday",
-          forecast: "Sunny with Clouds",
-          max: 25,
-          min: 15
-        },
-        {
-          day:"Thursday",
-          forecast: "Thunderstorms",
-          max: 28,
-          min: 19
-        },
-        {
-          day:"Friday",
-          forecast: "Sunny",
-          max: 33,
-          min: 25
+    convertToDaily(fullForecast) {
+        let dateTime = fullForecast[0].date.split(" ");
+        let day = dateTime[0];
+        let dailyInformation = [];
+        let temperatures = [];
+        let descriptions = []; 
+
+        for(let i = 0; i < fullForecast.length +1 ; i++){
+
+            if( i === 40){
+                dailyInformation.push( {
+                    date: day,
+                    forecast: descriptions,
+                    temperatures: temperatures
+                })
+            }else{
+                let currentDateTime = fullForecast[i].date.split(" ");
+                let currentDay = currentDateTime[0];
+
+                if (currentDay === day) {
+                    temperatures.push(fullForecast[i].maxTemp);
+                    temperatures.push(fullForecast[i].minTemp);
+                    descriptions.push(fullForecast[i].description);
+                }else{
+                    dailyInformation.push( {
+                        date: day,
+                        forecast: descriptions,
+                        temperatures: temperatures
+                    })
+
+                    temperatures = [];
+                    temperatures.push(fullForecast[i].maxTemp);
+                    temperatures.push(fullForecast[i].minTemp);
+
+                    descriptions = [];
+                    descriptions.push(fullForecast[i].description);
+                    day = currentDay;
+                }
+            }
         }
-      ]
+
+        let minTemperatures = this.getMin(dailyInformation);
+        let maxTemperatures = this.getMax(dailyInformation);
+        let mainDescriptions = this.getDescription(dailyInformation);
+
+        let finalWeatherInfo = [];
+
+        for( let i = 0; i < 5; i++) {
+            let dayInformation = {
+                day: dailyInformation[i].date,
+                forecast: mainDescriptions[i],
+                max: maxTemperatures[i],
+                min: minTemperatures[i]
+            }
+
+            finalWeatherInfo.push(dayInformation);
+        }
+
+        console.log(finalWeatherInfo);
+        return finalWeatherInfo;
+
+    }, 
+
+    getMin(dayForecasts){
+        let minTemperatures = [];
+        for (let i = 0; i < dayForecasts.length; i++) {
+            let min = dayForecasts[i].temperatures.reduce(function(a, b) {
+                return Math.min(a, b);
+            });
+
+            minTemperatures.push(Math.round(min));
+        }
+        return minTemperatures;
+    },
+
+    getMax(dayForecasts){
+        let maxTemperatures = [];
+        for (let i = 0; i < dayForecasts.length; i++) {
+            let max = dayForecasts[i].temperatures.reduce(function(a, b) {
+                return Math.max(a, b);
+            });
+
+            maxTemperatures.push(Math.round(max));
+        }
+
+        return maxTemperatures;
+    }, 
+
+    getDescription(dayForecasts){
+
+        let mainDescriptions = [];
+
+        for (let i = 0; i < dayForecasts.length; i++) {
+            
+            let descriptionCount = {};
+            let currentDayDescriptions = dayForecasts[i].forecast;
+
+            for ( let j = 0; j < currentDayDescriptions.length; j++){
+                if( currentDayDescriptions[j] in descriptionCount){
+                    descriptionCount[currentDayDescriptions[j]] = descriptionCount[currentDayDescriptions[j]] +1;
+                }else{
+                    descriptionCount[currentDayDescriptions[j]] = 1;
+                }
+            }
+
+            let highestFrequency = 0;
+
+            Object.keys(descriptionCount).forEach( (key, index) => {
+                let currentComparison = descriptionCount[key];
+                highestFrequency = Math.max(highestFrequency, currentComparison);
+            })
+
+            let mostFrequentDescription = Object.keys(descriptionCount).find(key => descriptionCount[key] === highestFrequency);
+
+            mainDescriptions.push(mostFrequentDescription);
+        }
+
+        return mainDescriptions;
     }
 
-    this.handleCityChange = this.handleCityChange.bind(this);
-    this.handleCountryChange = this.handleCountryChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
+};
 
-  handleCityChange(e){
-    let newText = e.target.value;
-    this.setState({ searchCity: newText});
-  }
-
-  handleCountryChange(e){
-    let newText = e.target.value;
-    this.setState({ searchCountry: newText});
-  }
-
-  handleSubmit(e){
-      this.setState({ location: this.state.searchCity});
-      console.log("You have clicked the buttON and it is working, now lets make the API call");
-  }
-
-
-  render() {
-    return (
-      <div className="weatherApp">
-        <h1>{this.state.location}</h1>
-        <input type="text" placeholder="City" onChange={this.handleCityChange}></input>
-        <input type="text" placeholder="Country Code" onChange={this.handleCountryChange}></input>
-        <button onClick={this.handleSubmit}>Submit!</button>
-        <ForecastList forecasts={this.state.forecastList}/>
-      </div>
-    )
-  }
-}
-
-export default App;
+export default OpenWeather;
